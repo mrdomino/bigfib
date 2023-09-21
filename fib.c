@@ -15,7 +15,8 @@ char const* argv0;
 
 [[noreturn]] void usage(void)
 {
-  fprintf(stderr, "usage: %s <n>\nfib 0.2 - gmp/%s\n", argv0, gmp_version);
+  fprintf(stderr, "usage: %s [base] <n>\nfib 0.2 - gmp/%s\n", argv0,
+          gmp_version);
   exit(1);
 }
 
@@ -134,16 +135,29 @@ void fib(mpz_t ret, uint64_t n)
 int main(int argc, char const* const argv[])
 {
   uint64_t  n;
+  int       base;
   mpz_t     res;
 
   argv0 = argv[0];
-  if (argc != 2) {
-    usage();
+  switch (argc) {
+    case 2:
+      base = 10;
+      n = read_n(argv[1]);
+      break;
+    case 3:
+      base = atoi(argv[1]);
+      if (!(base <= -2 && base >= -36) && !(base >= 2 && base <= 62)) {
+        fprintf(stderr, "base must be in -2..-36 or 2..62\n");
+        usage();
+      }
+      n = read_n(argv[2]);
+      break;
+    default:
+      usage();
   }
-  n = read_n(argv[1]);
   mpz_init(res);
   fib(res, n);
-  mpz_out_str(stdout, 10, res);
+  mpz_out_str(stdout, base, res);
   putchar('\n');
   mpz_clear(res);
   return 0;
