@@ -98,8 +98,8 @@ void mat_pow(mat* out, mat* tmp, mpz_t tmp2, mat* in, uint64_t n)
       mat_swap(tmp, out);
       mat_mul(out, tmp2, in, tmp);
     }
-    mat_mul(tmp, tmp2, in, in);
     mat_swap(tmp, in);
+    mat_mul(in, tmp2, tmp, tmp);
     n >>= 1;
   }
   mat_swap(tmp, out);
