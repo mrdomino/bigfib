@@ -107,7 +107,6 @@ void mat_pow(mat* out, mat* tmp, mpz_t tmp2, mat* in, uint64_t n)
 void fib(mpz_t ret, uint64_t n)
 {
   mat out, tmp, in;
-  mpz_t tmp2;
 
   mat_init(&out);
   mat_init(&tmp);
@@ -115,15 +114,13 @@ void fib(mpz_t ret, uint64_t n)
   mpz_init_set_ui(in.b, 1);
   mpz_init_set_ui(in.c, 1);
   mpz_init_set_ui(in.d, 0);
-  mpz_init(tmp2);
 
-  mat_pow(&out, &tmp, tmp2, &in, n);
+  mat_pow(&out, &tmp, ret, &in, n);
   mpz_set(ret, out.a);
 
   mat_clear(&out);
   mat_clear(&tmp);
   mat_clear(&in);
-  mpz_clear(tmp2);
 }
 
 int main(int argc, char const* argv[])
