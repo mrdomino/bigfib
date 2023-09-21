@@ -110,6 +110,11 @@ void fib(mpz_t ret, uint64_t n)
 {
   mat out, tmp, in;
 
+  if (n == 0) {
+    mpz_set_ui(ret, 0);
+    return;
+  }
+
   mat_init(&out);
   mat_init(&tmp);
   mpz_init_set_ui(in.a, 1);
@@ -117,7 +122,7 @@ void fib(mpz_t ret, uint64_t n)
   mpz_init_set_ui(in.c, 1);
   mpz_init_set_ui(in.d, 0);
 
-  mat_pow(&out, &tmp, ret, &in, n);
+  mat_pow(&out, &tmp, ret, &in, n - 1);
   mpz_set(ret, out.a);
 
   mat_clear(&out);
