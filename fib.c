@@ -11,7 +11,7 @@ typedef struct {
   mpz_t a, b, c, d;
 } mat;
 
-const char *argv0;
+char const* argv0;
 
 [[noreturn]] void usage(void)
 {
@@ -125,7 +125,7 @@ void fib(mpz_t ret, uint64_t n)
   mat_clear(&in);
 }
 
-int main(int argc, char const* argv[])
+int main(int argc, char const* const argv[])
 {
   uint64_t  n;
   mpz_t     res;
