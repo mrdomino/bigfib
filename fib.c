@@ -123,7 +123,7 @@ void fib(mpz_t ret, uint64_t n)
   mpz_init_set_ui(in.d, 0);
 
   mat_pow(&out, &tmp, ret, &in, n - 1);
-  mpz_set(ret, out.a);
+  mpz_swap(ret, out.a);
 
   mat_clear(&out);
   mat_clear(&tmp);
