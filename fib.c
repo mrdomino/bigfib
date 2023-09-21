@@ -11,13 +11,15 @@ typedef struct {
   mpz_t a, b, c, d;
 } mat;
 
-[[noreturn]] void usage(char const* argv0)
+const char *argv0;
+
+[[noreturn]] void usage(void)
 {
   fprintf(stderr, "usage: %s <n>\nfib 0.2 - gmp/%s\n", argv0, gmp_version);
   exit(1);
 }
 
-uint64_t read_n(char const* argv0, char const* arg)
+uint64_t read_n(char const* arg)
 {
   static_assert(sizeof(unsigned long long) == sizeof(uint64_t));
   unsigned long long n;
@@ -27,13 +29,13 @@ uint64_t read_n(char const* argv0, char const* arg)
     ++arg;
   }
   if (*arg == '-') {
-    usage(argv0);
+    usage();
   }
   n = strtoull(arg, &end, 0);
   if ((n == 0 && end == arg) ||
       (n == ULLONG_MAX && errno) ||
       *end) {
-    usage(argv0);
+    usage();
   }
   return (uint64_t)n;
 }
@@ -128,10 +130,11 @@ int main(int argc, char const* argv[])
   uint64_t  n;
   mpz_t     res;
 
+  argv0 = argv[0];
   if (argc != 2) {
-    usage(argv[0]);
+    usage();
   }
-  n = read_n(argv[0], argv[1]);
+  n = read_n(argv[1]);
   mpz_init(res);
   fib(res, n);
   mpz_out_str(stdout, 10, res);
