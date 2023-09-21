@@ -56,7 +56,7 @@ void mat_clear(mat* m)
   mpz_clear(m->d);
 }
 
-void mat_mul(mat* out, mpz_t tmp, mat const* a, mat const* b)
+void mat_mul(mat* restrict out, mpz_t tmp, mat const* a, mat const* b)
 {
   mpz_mul(out->a, a->a, b->a);
   mpz_mul(tmp, a->b, b->c);
@@ -75,35 +75,36 @@ void mat_mul(mat* out, mpz_t tmp, mat const* a, mat const* b)
   mpz_add(out->d, out->d, tmp);
 }
 
-void mat_swap(mat* a, mat* b)
+void mat_swap(mat* restrict a, mat* restrict b)
 {
   mat tmp;
 
   memcpy(&tmp, a, sizeof(mat));
-  memmove(a, b, sizeof(mat));
+  memcpy(a, b, sizeof(mat));
   memcpy(b, &tmp, sizeof(mat));
 }
 
-void mat_pow(mat* out, mat* tmp, mpz_t tmp2, mat* in, uint64_t n)
+void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
+             mat* restrict in, uint64_t n)
 {
   mpz_set_ui(out->a, 1);
   mpz_set_ui(out->b, 0);
   mpz_set_ui(out->c, 0);
-  mpz_set_ui(out->d, 1);
+  mpz_set_ui(out->d, 1);            // y = 1
   if (n == 0) {
     return;
   }
   while (n > 1) {
     if (n & 1) {
       mat_swap(tmp, out);
-      mat_mul(out, tmp2, in, tmp);
+      mat_mul(out, tmp2, in, tmp);  // y = x * y
     }
     mat_swap(tmp, in);
-    mat_mul(in, tmp2, tmp, tmp);
+    mat_mul(in, tmp2, tmp, tmp);    // x = x * x
     n >>= 1;
   }
   mat_swap(tmp, out);
-  mat_mul(out, tmp2, in, tmp);
+  mat_mul(out, tmp2, in, tmp);      // y = x * y
 }
 
 void fib(mpz_t ret, uint64_t n)
