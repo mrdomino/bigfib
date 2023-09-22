@@ -91,21 +91,21 @@ void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
   mpz_set_ui(out->a, 1);
   mpz_set_ui(out->b, 0);
   mpz_set_ui(out->c, 0);
-  mpz_set_ui(out->d, 1);            // y = 1
+  mpz_set_ui(out->d, 1);
   if (n == 0) {
     return;
   }
   while (n > 1) {
     if (n & 1) {
+      mat_mul(tmp, tmp2, in, out);
       mat_swap(tmp, out);
-      mat_mul(out, tmp2, in, tmp);  // y = x * y
     }
+    mat_mul(tmp, tmp2, in, in);
     mat_swap(tmp, in);
-    mat_mul(in, tmp2, tmp, tmp);    // x = x * x
     n >>= 1;
   }
+  mat_mul(tmp, tmp2, in, out);
   mat_swap(tmp, out);
-  mat_mul(out, tmp2, in, tmp);      // y = x * y
 }
 
 void fib(mpz_t ret, uint64_t n)
