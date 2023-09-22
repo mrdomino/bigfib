@@ -57,6 +57,15 @@ void mat_clear(mat* m)
   mpz_clear(m->d);
 }
 
+void mat_swap(mat* restrict a, mat* restrict b)
+{
+  mat tmp;
+
+  memcpy(&tmp, a, sizeof(mat));
+  memcpy(a, b, sizeof(mat));
+  memcpy(b, &tmp, sizeof(mat));
+}
+
 void mat_mul(mat* restrict out, mpz_t tmp, mat const* a, mat const* b)
 {
   mpz_mul(out->a, a->a, b->a);
@@ -74,15 +83,6 @@ void mat_mul(mat* restrict out, mpz_t tmp, mat const* a, mat const* b)
   mpz_mul(out->d, a->c, b->b);
   mpz_mul(tmp, a->d, b->d);
   mpz_add(out->d, out->d, tmp);
-}
-
-void mat_swap(mat* restrict a, mat* restrict b)
-{
-  mat tmp;
-
-  memcpy(&tmp, a, sizeof(mat));
-  memcpy(a, b, sizeof(mat));
-  memcpy(b, &tmp, sizeof(mat));
 }
 
 void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
