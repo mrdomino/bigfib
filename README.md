@@ -1,6 +1,6 @@
 `bigfib`: prints the *n*th Fibonacci number, fast, with arbitrary precision.
 
-Roughly equivalent to, but faster than, the following:
+Roughly equivalent to, but slightly faster than, the following:
 
 ```ruby
 #!/usr/bin/env ruby
