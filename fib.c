@@ -66,7 +66,8 @@ void mat_swap(mat* restrict a, mat* restrict b)
   memcpy(b, &tmp, sizeof(mat));
 }
 
-void mat_mul(mat* restrict out, mpz_t tmp, mat const* a, mat const* b)
+void mat_mul(mat* restrict out, mpz_ptr restrict tmp,
+             mat const* a, mat const* b)
 {
   mpz_mul(out->a, a->a, b->a);
   mpz_mul(tmp, a->b, b->c);
