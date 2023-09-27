@@ -99,14 +99,14 @@ void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
   while (n > 1) {
     if (n & 1) {
       mat_mul(tmp, tmp2, in, out);
-      mat_swap(tmp, out);
+      mat_swap(out, tmp);
     }
     mat_mul(tmp, tmp2, in, in);
-    mat_swap(tmp, in);
+    mat_swap(in, tmp);
     n >>= 1;
   }
   mat_mul(tmp, tmp2, in, out);
-  mat_swap(tmp, out);
+  mat_swap(out, tmp);
 }
 
 void fib(mpz_t ret, uint64_t n)
