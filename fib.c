@@ -22,7 +22,7 @@ char const* argv0;
 
 uint64_t read_n(char const* arg)
 {
-  static_assert(sizeof(unsigned long long) == sizeof(uint64_t));
+  static_assert(sizeof(unsigned long long) <= sizeof(uint64_t));
   unsigned long long n;
   char *end;
 
@@ -117,7 +117,6 @@ void fib(mpz_t ret, uint64_t n)
     mpz_set_ui(ret, 0);
     return;
   }
-
   mat_init(&out);
   mat_init(&tmp);
   mpz_init_set_ui(in.a, 1);
