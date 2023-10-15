@@ -11,16 +11,18 @@ typedef struct {
   mpz_t a, b, c, d;
 } mat;
 
-char const* argv0;
+static char const* argv0;
 
-[[noreturn]] void usage(void)
+[[noreturn]] static void
+usage(void)
 {
   fprintf(stderr, "usage: %s [base] <n>\nfib 0.2 - gmp/%s\n", argv0,
           gmp_version);
   exit(1);
 }
 
-uint64_t read_n(char const* arg)
+static uint64_t
+read_n(char const* arg)
 {
   static_assert(sizeof(unsigned long long) <= sizeof(uint64_t));
   unsigned long long n;
@@ -41,7 +43,8 @@ uint64_t read_n(char const* arg)
   return (uint64_t)n;
 }
 
-void mat_init(mat* m)
+static void
+mat_init(mat* m)
 {
   mpz_init(m->a);
   mpz_init(m->b);
@@ -49,7 +52,8 @@ void mat_init(mat* m)
   mpz_init(m->d);
 }
 
-void mat_clear(mat* m)
+static void
+mat_clear(mat* m)
 {
   mpz_clear(m->a);
   mpz_clear(m->b);
@@ -57,7 +61,8 @@ void mat_clear(mat* m)
   mpz_clear(m->d);
 }
 
-void mat_swap(mat* restrict a, mat* restrict b)
+static void
+mat_swap(mat* restrict a, mat* restrict b)
 {
   mat tmp;
 
@@ -66,8 +71,8 @@ void mat_swap(mat* restrict a, mat* restrict b)
   memcpy(b, &tmp, sizeof(mat));
 }
 
-void mat_mul(mat* restrict out, mpz_ptr restrict tmp,
-             mat const* a, mat const* b)
+static void
+mat_mul(mat* restrict out, mpz_ptr restrict tmp, mat const* a, mat const* b)
 {
   mpz_mul(out->a, a->a, b->a);
   mpz_mul(tmp, a->b, b->c);
@@ -86,8 +91,9 @@ void mat_mul(mat* restrict out, mpz_ptr restrict tmp,
   mpz_add(out->d, out->d, tmp);
 }
 
-void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
-             mat* restrict in, uint64_t n)
+static void
+mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
+        mat* restrict in, uint64_t n)
 {
   mpz_set_ui(out->a, 1);
   mpz_set_ui(out->b, 0);
@@ -109,7 +115,8 @@ void mat_pow(mat* restrict out, mat* restrict tmp, mpz_ptr restrict tmp2,
   mat_swap(out, tmp);
 }
 
-void fib(mpz_t ret, uint64_t n)
+static void
+fib(mpz_t ret, uint64_t n)
 {
   mat out, tmp, in;
 
@@ -132,7 +139,8 @@ void fib(mpz_t ret, uint64_t n)
   mat_clear(&in);
 }
 
-int main(int argc, char const* const argv[])
+int
+main(int argc, char const* const argv[])
 {
   uint64_t  n;
   int       base;
