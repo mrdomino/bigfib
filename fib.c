@@ -24,7 +24,7 @@ usage(void)
 static uint64_t
 read_n(char const* arg)
 {
-  static_assert(sizeof(unsigned long long) <= sizeof(uint64_t));
+  _Static_assert(sizeof(unsigned long long) <= sizeof(uint64_t));
   unsigned long long n;
   char *end;
 
