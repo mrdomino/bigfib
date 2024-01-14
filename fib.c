@@ -74,20 +74,20 @@ mat_swap(mat* restrict a, mat* restrict b)
 static void
 mat_mul(mat* restrict out, mpz_ptr restrict tmp, mat const* a, mat const* b)
 {
-  mpz_mul(out->a, a->a, b->a);
-  mpz_mul(tmp, a->b, b->c);
+  mpz_mul(tmp, a->a, b->a);
+  mpz_mul(out->a, a->b, b->c);
   mpz_add(out->a, out->a, tmp);
 
-  mpz_mul(out->b, a->a, b->b);
-  mpz_mul(tmp, a->b, b->d);
+  mpz_mul(tmp, a->a, b->b);
+  mpz_mul(out->b, a->b, b->d);
   mpz_add(out->b, out->b, tmp);
 
-  mpz_mul(out->c, a->c, b->a);
-  mpz_mul(tmp, a->d, b->c);
+  mpz_mul(tmp, a->c, b->a);
+  mpz_mul(out->c, a->d, b->c);
   mpz_add(out->c, out->c, tmp);
 
-  mpz_mul(out->d, a->c, b->b);
-  mpz_mul(tmp, a->d, b->d);
+  mpz_mul(tmp, a->c, b->b);
+  mpz_mul(out->d, a->d, b->d);
   mpz_add(out->d, out->d, tmp);
 }
 
