@@ -1,4 +1,4 @@
-CFLAGS=-O3 -DNDEBUG
+CFLAGS=-O3 -DNDEBUG -flto
 LDFLAGS=-lgmp
 WFLAGS=-std=c2x -Wall -Wextra
 
