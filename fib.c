@@ -34,6 +34,7 @@ read_n(char const* arg)
   if (*arg == '-') {
     usage();
   }
+  errno = 0;
   n = strtoull(arg, &end, 0);
   if ((n == 0 && end == arg) ||
       (n == ULLONG_MAX && errno) ||
